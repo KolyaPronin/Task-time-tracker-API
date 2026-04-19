@@ -1,0 +1,34 @@
+<mapper namespace="com.kolya.TaskTimeTracker.task.persistence.TaskMapper">
+
+    <insert id="insert"
+            parameterType="com.kolya.TaskTimeTracker.model.Task"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO task (name, description, status)
+        VALUES (#{name}, #{description}, #{status})
+    </insert>
+
+    <select id="findById"
+            resultType="com.kolya.TaskTimeTracker.model.Task">
+        SELECT id, name, description, status
+        FROM task
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll"
+            resultType="com.kolya.TaskTimeTracker.model.Task">
+        SELECT id, name, description, status
+        FROM task
+    </select>
+
+    <update id="updateStatus">
+        UPDATE task
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM task WHERE id = #{id}
+    </delete>
+
+</mapper>
