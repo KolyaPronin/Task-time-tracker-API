@@ -2,8 +2,7 @@ package com.kolya.TaskTimeTracker.timerecord.dto;
 
 import java.time.LocalDateTime;
 
-public record TimeRecordDto(
-    Long id,
+public record CreateTimeRecordDto(
     Long employeeId,
     Long taskId,
     LocalDateTime startTime,

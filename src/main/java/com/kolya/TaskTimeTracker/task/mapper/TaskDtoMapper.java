@@ -19,8 +19,8 @@ public class TaskDtoMapper {
 
     public Task toEntity(CreateTaskDto dto){
         Task task = new Task();
-        task.setName(dto.getName());
-        task.setDescription(dto.getDescription());
+        task.setName(dto.name());
+        task.setDescription(dto.description());
         task.setStatus(TaskStatus.NEW);
         return task;
     }

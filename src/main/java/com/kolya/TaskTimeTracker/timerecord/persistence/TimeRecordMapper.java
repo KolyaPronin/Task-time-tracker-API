@@ -1,5 +1,4 @@
-package com.kolya.TaskTimeTracker.timerecord.mapper;
-
+package com.kolya.TaskTimeTracker.timerecord.persistence;
 
 import com.kolya.TaskTimeTracker.model.TimeRecord;
 import org.apache.ibatis.annotations.Param;
