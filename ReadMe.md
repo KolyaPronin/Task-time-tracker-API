@@ -52,7 +52,6 @@ PostgreSQL 15 (запускается в Docker).
 	- POST /auth/login
 	  В ответе возвращается JWT токен:    
 	  {
-
 	  "token": "eyJhbGciOiJIUzI1NiIs..."  
 	  }
 
@@ -70,7 +69,6 @@ http://localhost:8080/swagger-ui/index.html
 
 #### Команда для сборки:
 ./mvnw clean package -DskipTests
-
 docker-compose -f docker/docker-compose.yml --env-file .env up -d --build
 
 
