@@ -1,5 +1,6 @@
 package com.kolya.TaskTimeTracker.task.service.impl;
 
+import com.kolya.TaskTimeTracker.common.exception.TaskNotFoundException;
 import com.kolya.TaskTimeTracker.model.Task;
 import com.kolya.TaskTimeTracker.model.enums.TaskStatus;
 import com.kolya.TaskTimeTracker.task.dto.CreateTaskDto;
@@ -7,6 +8,7 @@ import com.kolya.TaskTimeTracker.task.dto.TaskDto;
 import com.kolya.TaskTimeTracker.task.mapper.TaskDtoMapper;
 import com.kolya.TaskTimeTracker.task.persistence.TaskMapper;
 import com.kolya.TaskTimeTracker.task.service.TaskService;
+import lombok.Lombok;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,14 @@ public class TaskServiceImpl implements TaskService {
         this.mapper = mapper;
     }
 
+    private Task getTaskOrThrow(Long id) {
+        Task task = taskMapper.findById(id);
+        if (task == null) {
+            throw new TaskNotFoundException(id);
+        }
+        return task;
+    }
+
     public TaskDto createTask(CreateTaskDto dto) {
         Task task = mapper.toEntity(dto);
         taskMapper.insert(task);
@@ -29,16 +39,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public TaskDto getTaskById(Long id) {
-        Task task = taskMapper.findById(id);
-
-        if (task == null) { //потомзаменить на NotFoundException!
-            throw new RuntimeException("Task not found with id: " + id);
-        }
-
+        Task task = getTaskOrThrow(id);
         return mapper.toDto(task);
     }
 
     public void updateStatus(Long id, TaskStatus status) {
+        Task task = getTaskOrThrow(id);
         taskMapper.updateStatus(id, status.name());
     }
 
@@ -48,5 +54,10 @@ public class TaskServiceImpl implements TaskService {
         for(Task task : tasks)
             dtos.add(mapper.toDto(task));
         return dtos;
+    }
+
+    public void deleteById(Long id) {
+        getTaskOrThrow(id);
+        taskMapper.deleteById(id);
     }
 }

@@ -1,11 +1,13 @@
 package com.kolya.TaskTimeTracker.timerecord.persistence;
 
 import com.kolya.TaskTimeTracker.model.TimeRecord;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Mapper
 public interface TimeRecordMapper {
     void insert(TimeRecord timeRecord);
     TimeRecord findById(Long id);

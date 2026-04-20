@@ -1,5 +1,7 @@
 package com.kolya.TaskTimeTracker.timerecord.service.impl;
 
+import com.kolya.TaskTimeTracker.common.exception.InvalidTimeRangeException;
+import com.kolya.TaskTimeTracker.common.exception.TimeRecordOverlapException;
 import com.kolya.TaskTimeTracker.model.TimeRecord;
 import com.kolya.TaskTimeTracker.task.mapper.TaskDtoMapper;
 import com.kolya.TaskTimeTracker.timerecord.dto.CreateTimeRecordDto;
@@ -23,12 +25,27 @@ public class TimeRecordServiceImpl implements TimeRecordService {
     }
 
     public TimeRecordDto createTimeRecord(CreateTimeRecordDto dto) {
-        if (dto.endTime().isBefore(dto.startTime())) {//заменить на свой обработчик
-            throw new IllegalArgumentException("endTime should be after startTime");
+        if (dto.endTime().isBefore(dto.startTime())) {
+            throw new InvalidTimeRangeException("endTime must be after startTime");
         }
+
+        List<TimeRecord> existing =
+                timeRecordMapper.findByEmployeeAndPeriod(
+                        dto.employeeId(),
+                        dto.startTime(),
+                        dto.endTime()
+                );
+
+        boolean overlap = existing.stream().anyMatch(r ->
+                r.getStartTime().isBefore(dto.endTime()) &&
+                        r.getEndTime().isAfter(dto.startTime())
+        );
+        if (overlap) {
+            throw new TimeRecordOverlapException("Time record overlaps with existing one");
+        }
+
         TimeRecord record = mapper.toEntity(dto);
         timeRecordMapper.insert(record);
-
         return mapper.toDto(record);
     }
 
@@ -43,5 +60,4 @@ public class TimeRecordServiceImpl implements TimeRecordService {
         }
         return  dtos;
     }
-
 }

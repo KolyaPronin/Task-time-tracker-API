@@ -1,4 +1,11 @@
 package com.kolya.TaskTimeTracker.common.exception;
 
-public record ErrorResponse() {
-}
+import java.time.LocalDateTime;
+
+public record ErrorResponse(
+    LocalDateTime timeStamp,
+    int status,
+    String error,
+    String message,
+    String path
+){}

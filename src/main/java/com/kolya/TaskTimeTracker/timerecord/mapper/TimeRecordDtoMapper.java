@@ -3,7 +3,9 @@ package com.kolya.TaskTimeTracker.timerecord.mapper;
 import com.kolya.TaskTimeTracker.model.TimeRecord;
 import com.kolya.TaskTimeTracker.timerecord.dto.CreateTimeRecordDto;
 import com.kolya.TaskTimeTracker.timerecord.dto.TimeRecordDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TimeRecordDtoMapper {
     public TimeRecordDto toDto(TimeRecord timeRecord) {
         return new TimeRecordDto(
