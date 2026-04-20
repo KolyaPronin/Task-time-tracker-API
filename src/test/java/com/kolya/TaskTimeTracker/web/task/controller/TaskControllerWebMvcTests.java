@@ -1,5 +1,6 @@
-package com.kolya.TaskTimeTracker.task.controller;
+package com.kolya.TaskTimeTracker.web.task.controller;
 
+import com.kolya.TaskTimeTracker.task.controller.TaskController;
 import com.kolya.TaskTimeTracker.task.dto.CreateTaskDto;
 import com.kolya.TaskTimeTracker.task.dto.TaskDto;
 import com.kolya.TaskTimeTracker.task.service.TaskService;

@@ -1,4 +1,4 @@
-package com.kolya.TaskTimeTracker.timerecord.service;
+package com.kolya.TaskTimeTracker.unit.timerecord.service;
 
 import com.kolya.TaskTimeTracker.common.exception.InvalidTimeRangeException;
 import com.kolya.TaskTimeTracker.common.exception.TimeRecordOverlapException;

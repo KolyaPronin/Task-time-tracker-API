@@ -1,6 +1,7 @@
-package com.kolya.TaskTimeTracker.timerecord.controller;
+package com.kolya.TaskTimeTracker.web.timerecord.controller;
 
 import com.kolya.TaskTimeTracker.common.exception.InvalidTimeRangeException;
+import com.kolya.TaskTimeTracker.timerecord.controller.TimeRecordController;
 import com.kolya.TaskTimeTracker.timerecord.dto.CreateTimeRecordDto;
 import com.kolya.TaskTimeTracker.timerecord.dto.TimeRecordDto;
 import com.kolya.TaskTimeTracker.timerecord.service.TimeRecordService;
