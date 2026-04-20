@@ -8,7 +8,6 @@ import com.kolya.TaskTimeTracker.task.dto.TaskDto;
 import com.kolya.TaskTimeTracker.task.mapper.TaskDtoMapper;
 import com.kolya.TaskTimeTracker.task.persistence.TaskMapper;
 import com.kolya.TaskTimeTracker.task.service.TaskService;
-import lombok.Lombok;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void updateStatus(Long id, TaskStatus status) {
-        Task task = getTaskOrThrow(id);
+        getTaskOrThrow(id);
         taskMapper.updateStatus(id, status.name());
     }
 

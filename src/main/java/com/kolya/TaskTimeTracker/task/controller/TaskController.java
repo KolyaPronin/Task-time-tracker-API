@@ -5,6 +5,7 @@ import com.kolya.TaskTimeTracker.task.dto.TaskDto;
 import com.kolya.TaskTimeTracker.task.dto.UpdateTaskStatusDto;
 import com.kolya.TaskTimeTracker.task.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "task_endpoints")
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/tasks")
 @Validated

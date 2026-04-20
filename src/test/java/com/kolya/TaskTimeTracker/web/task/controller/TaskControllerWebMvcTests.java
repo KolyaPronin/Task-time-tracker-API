@@ -1,5 +1,6 @@
 package com.kolya.TaskTimeTracker.web.task.controller;
 
+import com.kolya.TaskTimeTracker.common.security.JwtService;
 import com.kolya.TaskTimeTracker.task.controller.TaskController;
 import com.kolya.TaskTimeTracker.task.dto.CreateTaskDto;
 import com.kolya.TaskTimeTracker.task.dto.TaskDto;
@@ -10,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,7 +34,14 @@ class TaskControllerWebMvcTests {
     @MockBean
     private TaskService service;
 
+    @MockBean
+    private JwtService jwtService;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+
     @Test
+    @WithMockUser
     void getById_shouldReturn200() throws Exception {
         TaskDto dto = new TaskDto();
 
@@ -41,6 +52,7 @@ class TaskControllerWebMvcTests {
     }
 
     @Test
+    @WithMockUser
     void getAll_shouldReturn200() throws Exception {
         when(service.getAllTask()).thenReturn(List.of(new TaskDto()));
 
@@ -49,6 +61,7 @@ class TaskControllerWebMvcTests {
     }
 
     @Test
+    @WithMockUser
     void create_shouldReturn200() throws Exception {
         CreateTaskDto request = new CreateTaskDto("name", "desc");
         TaskDto response = new TaskDto();
@@ -56,44 +69,54 @@ class TaskControllerWebMvcTests {
         when(service.createTask(request)).thenReturn(response);
 
         mockMvc.perform(post("/api/tasks")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser
     void updateStatus_shouldReturn204() throws Exception {
         mockMvc.perform(patch("/api/tasks/1/status")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"status\":\"DONE\"}"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
+    @WithMockUser
     void delete_shouldReturn204() throws Exception {
-        mockMvc.perform(delete("/api/tasks/1"))
+        mockMvc.perform(delete("/api/tasks/1")
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
     }
 
     @Test
+    @WithMockUser
     void create_shouldReturn400_whenInvalidDto() throws Exception {
         CreateTaskDto request = new CreateTaskDto("", "");
 
         mockMvc.perform(post("/api/tasks")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
+    @WithMockUser
     void getById_shouldReturn400_whenInvalidId() throws Exception {
         mockMvc.perform(get("/api/tasks/0"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
+    @WithMockUser
     void updateStatus_shouldReturn400_whenInvalidBody() throws Exception {
         mockMvc.perform(patch("/api/tasks/1/status")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest());

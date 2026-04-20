@@ -5,6 +5,7 @@ import com.kolya.TaskTimeTracker.timerecord.dto.TimeRecordDto;
 import com.kolya.TaskTimeTracker.timerecord.service.TimeRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "time_record_endpoints")
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/time-records")
 @Validated

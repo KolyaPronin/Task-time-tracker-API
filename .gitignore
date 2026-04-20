@@ -2,3 +2,6 @@
 .vscode
 .mvn
 HELP.md
+target/
+*.jar
+.env
